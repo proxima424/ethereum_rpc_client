@@ -15,6 +15,7 @@ describe('EthereumClient E2E tests', () => {
                 expect(typeof balance).toBe('string');
             });
 
+
             // Add more tests as needed
         });
     });

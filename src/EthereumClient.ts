@@ -76,6 +76,76 @@ class EthereumClient {
     throw lastError; // if all requests fail, throw the last error
   }
 
+
+
+  async getBlockByHash(blockHash: string, nodeUrl?: string){
+    return await this.makeRPCRequest('eth_getBlockByHash', [blockHash,true], nodeUrl)
+  }
+
+  async getBlockByNumber(blockNumber: string, nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_getBlockByNumber', [blockNumber, true], nodeUrl)
+  }
+
+  async getBlockTransactionCountByHash(blockHash?: string, nodeUrl?: string){
+    return await this.makeRPCRequest('eth_getBlockTransactionCountByHash',[blockHash], nodeUrl)
+  }
+
+  async getChainId(nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_chainId', [], nodeUrl)
+  }
+
+  async getSyncStatus(nodeUrl?: string){
+    return await this.makeRPCRequest('eth_syncing',[], nodeUrl)
+  }
+
+  async getCoinbase(nodeUrl?: string){
+    return await this.makeRPCRequest('eth_coinbase',[], nodeUrl)
+  }
+
+  async getBlockNumber(nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_blockNumber', [], nodeUrl)
+  }
+
+  async call(transactionObject: any, nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_call', [transactionObject, 'latest'], nodeUrl)
+  }
+
+  // Why not put 'latest' tag here
+  async estimateGas(transactionObject: any, nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_estimateGas', [transactionObject], nodeUrl)
+  }
+
+  // should provide customization for the second param?
+  // block number and block tag?
+  async createAccessList(transactionObject: any, nodeUrl?: string){
+    return await this.makeRPCRequest('eth_createAccessList', [transactionObject,'latest'], nodeUrl  );
+  }
+
+  async getGasPrice(nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_gasPrice', [], nodeUrl)
+  }
+
+  async getMaxPriorityFeePerGas(nodeUrl?: string) {
+    return await this.makeRPCRequest('eth_maxPriorityFeePerGas', [], nodeUrl)
+  }
+
+  async getFeeHistory(blockCount: string, newestBlock: string, rewardPercentiles: number[], nodeUrl?:string ){
+    return await this.makeRPCRequest('eth_feeHistory', [blockCount,newestBlock,rewardPercentiles], nodeUrl);
+  }
+
+  async getEthSigned(address: string, message: string, nodeUrl?: string){
+    return await this.makeRPCRequest('eth_sign', [address,message], nodeUrl);
+  }
+
+
+
+
+
+
+
+
+
+
   async getBalance(address: string, nodeUrl?: string) {
     return await this.makeRPCRequest('eth_getBalance', [address, 'latest'], nodeUrl)
   }
@@ -84,29 +154,16 @@ class EthereumClient {
     return await this.makeRPCRequest('eth_getTransactionCount', [address, 'latest'], nodeUrl)
   }
 
-  async getChainId(nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_chainId', [], nodeUrl)
-  }
 
-  async getBlockNumber(nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_blockNumber', [], nodeUrl)
-  }
+
+
 
   async getTransactionReceipt(transactionHash: string, nodeUrl?: string) {
     return await this.makeRPCRequest('eth_getTransactionReceipt', [transactionHash], nodeUrl)
   }
 
-  async getBlockByNumber(blockNumber: string, nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_getBlockByNumber', [blockNumber, true], nodeUrl)
-  }
 
-  async call(transactionObject: any, nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_call', [transactionObject, 'latest'], nodeUrl)
-  }
 
-  async getGasPrice(nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_gasPrice', [], nodeUrl)
-  }
 
   async getLogs(filterObject: any, nodeUrl?: string) {
     return await this.makeRPCRequest('eth_getLogs', [filterObject], nodeUrl)
@@ -120,13 +177,9 @@ class EthereumClient {
     return await this.makeRPCRequest('eth_sendRawTransaction', [signedTxData], nodeUrl)
   }
 
-  async estimateGas(transactionObject: any, nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_estimateGas', [transactionObject], nodeUrl)
-  }
 
-  async getMaxPriorityFeePerGas(nodeUrl?: string) {
-    return await this.makeRPCRequest('eth_maxPriorityFeePerGas', [], nodeUrl)
-  }
+
+
 
   async getCode(address: string, nodeUrl?: string) {
     return await this.makeRPCRequest('eth_getCode', [address, 'latest'], nodeUrl)
